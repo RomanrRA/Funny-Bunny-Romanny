@@ -31,6 +31,7 @@ class Circle
     }
 }
 
+// Мой комментарий
 $circus = new Circle(5);
 
 echo $circus->getDiameter();
