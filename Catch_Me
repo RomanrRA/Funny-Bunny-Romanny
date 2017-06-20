@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Cath_Me
+{
+    public partial class Form1 : Form
+    {
+        private Random rand = new Random();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void button2_MouseMove(object sender, MouseEventArgs e)
+        {
+            //Реализация метода Random
+            if (Control.ModifierKeys == Keys.Control) return;
+            button2.Location = new Point(rand.Next(ClientRectangle.Width - 5), rand.Next(ClientRectangle.Height - 5));
+
+        }
+
+        private void button2_Click2(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Normal)
+            {
+                WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                WindowState = FormWindowState.Normal;
+            }
+        }
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            button2.Text = "Изменить";
+            button2.MouseMove -= button2_MouseMove;
+            button2.Click -= button2_Click;
+            button2.Click += button2_Click2;
+
+        }
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            button1.Location = new Point(e.X - button1.Width / 2, e.Y - button1.Height / 2);
+            if (button2.Text != "")
+            {
+                button2.Text = "";
+                button2.MouseMove += button2_MouseMove;
+                button2.Click += button2_Click;
+                button2.Click -= button2_Click2;
+
+            }
+        }
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            label1.Text = "Изменили размер";
+            if (ClientRectangle.IntersectsWith(button1.Bounds))
+                button1.Location = new Point(10, 10);
+            if (ClientRectangle.IntersectsWith(button2.Bounds))
+                button2.Location = new Point(10, 10);
+        }
+    }
+}
